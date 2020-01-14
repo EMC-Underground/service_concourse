@@ -3,6 +3,10 @@
   become: true
 
   tasks:
+  - name: Installing jsondiff python dependancy for ansible docker stack module
+    pip:
+      name: jsondiff
+
   - name: Clone/Pull latest version of repository
     git:
       repo: https://github.com/EMC-Underground/service_concourse.git
