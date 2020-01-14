@@ -38,11 +38,15 @@ run:
         if [ $i -eq 1 ]
         then
             echo "in the first node loop"
-            sed -i "/\[web\]/a `echo $array | awk 'NR==$i{print $0}'`" hosts
-            sed -i "/\[worker\]/a `echo $array | awk 'NR==$i{print $0}'`" hosts
+            node=`echo $array | awk -v  var="$i" 'NR==var{print $0}'`
+            echo $node
+            sed -i "/\[web\]/a ${node}" hosts
+            sed -i "/\[worker\]/a ${node}" hosts
         else
             echo "in the subsequent nodes loop"
-            sed -i "/\[worker\]/a `echo $array | awk 'NR==$i{print $0}'`" hosts
+            node=`echo $array | awk -v  var="$i" 'NR==var{print $0}'`
+            echo $node
+            sed -i "/\[worker\]/a ${node}" hosts
         fi
     done
     echo "Hosts file:\n"
