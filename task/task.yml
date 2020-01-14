@@ -4,8 +4,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: alpinelinux/docker-cli
-    tag: latest
+    repository: williamyeh/ansible
+    tag: ubuntu18.04
 
 params:
   DNS_SUFFIX: ((dnssuffix))
@@ -19,20 +19,29 @@ run:
   args:
   - -c
   - |
-    echo "Docker Host: ${DOCKER_HOST}"
-    apk add --no-cache ansible
+    mkdir /tmp/web
+    mkdir /tmp/worker
     cd concourse_repo
-    ./keys/generate
+    echo "Docker Host: ${DOCKER_HOST}"
     server_list=((server_list))
     array=($(echo "${server_list}" | tr ',' '\n'))
-    echo [all] > hosts
+    echo [web] > hosts
+    echo [worker] >> hosts
     count=`expr ${#array[@]} - 1`
     for i in $(seq 0 $count)
     do
-        echo "${array[$i]}" >> hosts
+        if [ $i -eq 0 ]
+        then
+            sed -i "/\[web\]/a ${array[0]}" hosts
+            sed -i "/\[worker\]/a ${array[0]}" hosts
+        else
+            sed -i "/\[worker\]/a ${array[$i]}" hosts
+        fi
     done
     echo "Hosts file:\n"
     cat hosts
     sed -i "/\[defaults\]/a host_key_checking = False" /etc/ansible/ansible.cfg
-    docker stack deploy -c docker-compose.yml cicd
-    ansible-playbook playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass": "((password))"}' -u ((user_name))
+    ansible-playbook first_playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass": "((password))"}' -u ((user_name))
+    ls -la /tmp/web
+    ls -la /tmp/worker
+    ansible-playbook second_playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass": "((password))"}' -u ((user_name))

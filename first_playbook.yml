@@ -1,0 +1,47 @@
+---
+- hosts: web
+  become: true
+
+  tasks:
+  - name: Clone/Pull latest version of repository
+    git:
+      repo: https://github.com/EMC-Underground/service_concourse.git
+      dest: /tmp/service_concourse
+
+  - name: Generating worker and web certs
+    shell: ./keys/generate
+    args:
+      chdir: /tmp/service_concourse
+
+  - name: Creating list of web files to copy
+    shell: (cd /tmp/service_concourse/keys/web; find . -maxdepth 1 -type f) | cut -d'/' -f2
+    register: web_files_to_copy
+
+  - name: Copy web files from vm back to worker container
+    fetch:
+      src: /tmp/service_concourse/keys/web/{{ item }}
+      dest: /tmp/web/
+      flat: yes
+    with_items:
+      - "{{ web_files_to_copy.stdout_lines }}"
+
+  - name: Creating list of worker files to copy
+    shell: (cd /tmp/service_concourse/keys/worker; find . -maxdepth 1 -type f) | cut -d'/' -f2
+    register: worker_files_to_copy
+
+  - name: Copy web files from vm back to worker container
+    fetch:
+      src: /tmp/service_concourse/keys/worker/{{ item }}
+      dest: /tmp/worker/
+      flat: yes
+    with_items:
+      - "{{ worker_files_to_copy.stdout_lines }}"
+
+  - name: Deploy concourse docker stack
+    docker_stack:
+      state: present
+      name: cicd
+      compose:
+        - /tmp/service_concourse/docker-compose.yml
+    args:
+      chdir: /tmp/service_concourse

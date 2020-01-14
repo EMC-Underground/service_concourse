@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: worker
   connection: local
   become: true
   vars:
@@ -23,7 +23,7 @@
 
   - name: "Copy worker certs"
     copy:
-      src: ./keys/worker/
+      src: /tmp/worker/
       dest: /opt/concourse/keys/
       owner: root
       group: root
