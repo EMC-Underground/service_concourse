@@ -3,6 +3,11 @@
   become: true
 
   tasks:
+  - name: Installing pip
+    easy_install:
+      name: pip
+      state: latest
+
   - name: Installing jsondiff python dependancy for ansible docker stack module
     pip:
       name: jsondiff
