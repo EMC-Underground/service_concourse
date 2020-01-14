@@ -4,8 +4,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: williamyeh/ansible
-    tag: ubuntu18.04
+    repository: alpinelinux/docker-cli
+    tag: latest
 
 params:
   DNS_SUFFIX: ((dnssuffix))
@@ -19,6 +19,7 @@ run:
   args:
   - -c
   - |
+    apk add --no-cache ansible
     mkdir /tmp/web
     mkdir /tmp/worker
     cd concourse_repo
