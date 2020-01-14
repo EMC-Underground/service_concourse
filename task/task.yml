@@ -45,7 +45,7 @@ run:
     echo "Hosts file:"
     cat hosts
     export ANSIBLE_HOST_KEY_CHECKING=False
-ansible-playbook first_playbook.yml -i hosts --extra-vars '{"postgres_pw":"password","dns_suffix":"((dnssuffix))","vault_key":"((vault_concourse_token))","ansible_ssh_pass": "((password))"}' -u ((user_name))
+    ansible-playbook first_playbook.yml -i hosts --extra-vars '{"postgres_pw":"password","dns_suffix":"((dnssuffix))","vault_key":"((vault_concourse_token))","ansible_ssh_pass": "((password))"}' -u ((user_name))
     ls -la /tmp/web
     ls -la /tmp/worker
     ansible-playbook second_playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass":"((password))"}' -u ((user_name))
