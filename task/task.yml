@@ -30,7 +30,9 @@ run:
     echo "[web]" > hosts
     echo "[worker]" >> hosts
     count=$(printf "%s\n" "$array" | wc -l)
-    echo "array contents: ${array}"
+    echo "array contents:"
+    echo "${array}"
+    echo "$array"
     echo "after count"
     echo $count
     for i in $(seq 1 $count)
