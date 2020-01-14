@@ -18,9 +18,9 @@ echo `pwd`
 echo "Directory contents:"
 ls -la
 echo "Web Directory contents:"
-ls -la
+ls -la ./web
 echo "Worker Directory contents:"
-ls -la
+ls -la ./worker
 
 cp ./worker/worker_key.pub ./web/authorized_worker_keys
 cp ./web/tsa_host_key.pub ./worker
