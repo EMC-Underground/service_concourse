@@ -4,22 +4,24 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: williamyeh/ansible
-    tag: ubuntu18.04
+    repository: alpinelinux/docker-cli
+    tag: latest
 
 params:
   DNS_SUFFIX: ((dnssuffix))
   DOCKER_HOST: ((dockerhost))
 
 inputs:
-  - name: service_concourse
+  - name: concourse_repo
 
 run:
   path: sh
   args:
   - -c
   - |
-    cd service_concourse
+    echo "Docker Host: ${DOCKER_HOST}
+    apk add --no-cache ansible
+    cd concourse_repo
     ./keys/generate
     server_list=((server_list))
     array=($(echo "${server_list}" | tr ',' '\n'))
@@ -29,9 +31,8 @@ run:
     do
         echo "${array[$i]}" >> hosts
     done
-    export DOCKER_HOST=$array[0]
+    echo "Hosts file:\n"
     cat hosts
-    echo $DOCKER_HOST
     sed -i "/\[defaults\]/a host_key_checking = False" /etc/ansible/ansible.cfg
     docker stack deploy -c docker-compose.yml cicd
     ansible-playbook playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass": "((password))"}' -u ((user_name))
