@@ -29,7 +29,7 @@ run:
     array=$(echo "${server_list}" | tr ',' '\n')
     echo "[web]" > hosts
     echo "[worker]" >> hosts
-    count=$($(printf "%s\n" "$array" | wc -l))
+    count=$(printf "%s\n" "$array" | wc -l)
     echo "array contents: ${array}"
     echo "after count"
     echo $count
