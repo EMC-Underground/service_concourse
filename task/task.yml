@@ -1,0 +1,37 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: williamyeh/ansible
+    tag: ubuntu18.04
+
+params:
+  DNS_SUFFIX: ((dnssuffix))
+  DOCKER_HOST: ((dockerhost))
+
+inputs:
+  - name: service_concourse
+
+run:
+  path: sh
+  args:
+  - -c
+  - |
+    cd service_concourse
+    ./keys/generate
+    server_list=((server_list))
+    array=($(echo "${server_list}" | tr ',' '\n'))
+    echo [all] > hosts
+    count=`expr ${#array[@]} - 1`
+    for i in $(seq 0 $count)
+    do
+        echo "${array[$i]}" >> hosts
+    done
+    export DOCKER_HOST=$array[0]
+    cat hosts
+    echo $DOCKER_HOST
+    sed -i "/\[defaults\]/a host_key_checking = False" /etc/ansible/ansible.cfg
+    docker stack deploy -c docker-compose.yml cicd
+    ansible-playbook playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass": "((password))"}' -u ((user_name))

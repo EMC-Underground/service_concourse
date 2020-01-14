@@ -1,0 +1,18 @@
+[Unit]
+Description=Concourse Worker
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/concourse/concourse_worker.conf
+ExecStart=/usr/local/concourse/bin/concourse worker
+KillMode=process
+LimitNPROC=infinity
+LimitNOFILE=infinity
+TasksMax=infinity
+Restart=on-failure
+RestartSec=3
+ExecStop=/bin/kill -USR2 $MAINPID ; /usr/bin/tail --pid $MAINPID -f /dev/null
+TimeoutStopSec=300
+
+[Install]
+WantedBy=multi-user.target

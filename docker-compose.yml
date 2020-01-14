@@ -1,0 +1,75 @@
+version: '3.4'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: concourse
+      POSTGRES_USER: concourse_user
+      POSTGRES_PASSWORD: ${POSTGRES_CONCOURSE_PASSWORD}
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+
+  web:
+    image: concourse/concourse:5.6
+    command: web
+    networks:
+      - vault-secrets
+      - traefik-net
+      - default
+    ports:
+      - 2222:2222
+    environment:
+      CONCOURSE_EXTERNAL_URL: http://concourse.${DNS_SUFFIX}
+      CONCOURSE_POSTGRES_HOST: db
+      CONCOURSE_POSTGRES_USER: concourse_user
+      CONCOURSE_POSTGRES_PASSWORD: ${POSTGRES_CONCOURSE_PASSWORD}
+      CONCOURSE_POSTGRES_DATABASE: concourse
+      CONCOURSE_VAULT_CLIENT_TOKEN: ${VAULT_CLIENT_TOKEN}
+      CONCOURSE_VAULT_URL: http://vault:8200
+      CONCOURSE_ADD_LOCAL_USER: test:test
+      CONCOURSE_MAIN_TEAM_LOCAL_USER: test
+      CONCOURSE_SESSION_SIGNING_KEY: /run/secrets/session_signing_key
+      CONCOURSE_TSA_AUTHORIZED_KEYS: /run/secrets/authorized_worker_keys
+      CONCOURSE_TSA_HOST_KEY: /run/secrets/tsa_host_key
+    secrets:
+      - source: session_signing_key
+        target: session_signing_key
+        uid: "0"
+        mode: 400
+      - source: authorized_worker_keys
+        target: authorized_worker_keys
+        uid: "0"
+        mode: 400
+      - source: tsa_host_key
+        target: tsa_host_key
+        uid: "0"
+        mode: 400
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    deploy:
+      labels:
+        - "traefik.frontend.rule=Host:concourse.${DNS_SUFFIX}"
+        - "traefik.port=8080"
+        - "traefik.docker.network=traefik-net"
+        - "traefik.enable=true"
+
+secrets:
+  session_signing_key:
+    file: ./keys/web/session_signing_key
+  tsa_host_key:
+    file: ./keys/web/tsa_host_key
+  authorized_worker_keys:
+    file: ./keys/web/authorized_worker_keys
+
+networks:
+  traefik-net:
+    external: true
+  vault-secrets:
+    external: true

@@ -1,0 +1,6 @@
+keys/web/*
+keys/worker/*
+bin/*
+!bin/.gitkeep
+.DS_Store
+.envrc
