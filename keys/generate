@@ -13,5 +13,10 @@ docker run --rm -v $PWD/web:/keys concourse/concourse \
 docker run --rm -v $PWD/worker:/keys concourse/concourse \
   generate-key -t ssh -f /keys/worker_key
 
+printf "Current directory: "
+echo `pwd`
+echo "Directory contents:"
+ls -la
+
 cp ./worker/worker_key.pub ./web/authorized_worker_keys
 cp ./web/tsa_host_key.pub ./worker
