@@ -62,11 +62,11 @@ services:
 
 secrets:
   session_signing_key:
-    file: ./keys/web/session_signing_key
+    file: /tmp/service_concourse/keys/web/session_signing_key
   tsa_host_key:
-    file: ./keys/web/tsa_host_key
+    file: /tmp/service_concourse/keys/web/tsa_host_key
   authorized_worker_keys:
-    file: ./keys/web/authorized_worker_keys
+    file: /tmp/service_concourse/keys/web/authorized_worker_keys
 
 networks:
   traefik-net:

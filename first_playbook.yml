@@ -43,5 +43,3 @@
       name: cicd
       compose:
         - /tmp/service_concourse/docker-compose.yml
-    args:
-      chdir: /tmp/service_concourse
