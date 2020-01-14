@@ -30,6 +30,7 @@ run:
     echo "[web]" > hosts
     echo "[worker]" >> hosts
     count=`expr ${#array[@]} - 1`
+    echo "array contents: ${array}"
     echo "after count"
     echo $count
     for i in $(seq 0 $count)
