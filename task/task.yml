@@ -29,20 +29,20 @@ run:
     array=$(echo "${server_list}" | tr ',' '\n')
     echo "[web]" > hosts
     echo "[worker]" >> hosts
-    count=$(($(printf "%s\n" "$output" | wc -l) - 1))
+    count=$(($(printf "%s\n" "$array" | wc -l) - 1))
     echo "array contents: ${array}"
     echo "after count"
     echo $count
-    for i in $(seq 0 $count)
+    for i in $(seq 1 $count)
     do
-        if [ $i -eq 0 ]
+        if [ $i -eq 1 ]
         then
             echo "in the first node loop"
-            sed -i "/\[web\]/a ${array[0]}" hosts
-            sed -i "/\[worker\]/a ${array[0]}" hosts
+            sed -i "/\[web\]/a `echo $array | awk 'NR==${i}{print $0}'`" hosts
+            sed -i "/\[worker\]/a `echo $array | awk 'NR==${i}{print $0}'`" hosts
         else
             echo "in the subsequent nodes loop"
-            sed -i "/\[worker\]/a ${array[$i]}" hosts
+            sed -i "/\[worker\]/a `echo $array | awk 'NR==${i}{print $0}'`" hosts
         fi
     done
     echo "Hosts file:\n"
