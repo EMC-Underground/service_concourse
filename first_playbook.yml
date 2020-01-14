@@ -52,3 +52,7 @@
       name: cicd
       compose:
         - /tmp/service_concourse/docker-compose.yml
+    environment:
+      DNS_SUFFIX: "{{ dns_suffix }}"
+      POSTGRES_CONCOURSE_PASSWORD: "password"
+      VAULT_CLIENT_TOKEN: "{{ vault_client_token }}"
