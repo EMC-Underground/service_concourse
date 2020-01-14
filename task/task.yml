@@ -29,16 +29,18 @@ run:
     array=$(echo "${server_list}" | tr ',' '\n')
     echo "[web]" > hosts
     echo "[worker]" >> hosts
-    echo "got here"
     count=`expr ${#array[@]} - 1`
-    echo "also got here"
+    echo "after count"
+    echo $count
     for i in $(seq 0 $count)
     do
         if [ $i -eq 0 ]
         then
+            echo "in the first node loop"
             sed -i "/\[web\]/a ${array[0]}" hosts
             sed -i "/\[worker\]/a ${array[0]}" hosts
         else
+            echo "in the subsequent nodes loop"
             sed -i "/\[worker\]/a ${array[$i]}" hosts
         fi
     done
