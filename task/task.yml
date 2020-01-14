@@ -9,7 +9,9 @@ image_resource:
 
 params:
   DNS_SUFFIX: ((dnssuffix))
+  VAULT_CLIENT_TOKEN: ((vault_concourse_token))
   DOCKER_HOST: ((dockerhost))
+  POSTGRES_CONCOURSE_PASSWORD: password
 
 inputs:
   - name: concourse_repo
@@ -47,4 +49,4 @@ run:
     ansible-playbook first_playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass": "((password))"}' -u ((user_name))
     ls -la /tmp/web
     ls -la /tmp/worker
-    ansible-playbook second_playbook.yml -i hosts --extra-vars '{"dns_suffix": "$DNS_SUFFIX","vault_client_token": "((vault_concourse_token))","ansible_ssh_pass": "((password))"}' -u ((user_name))
+    ansible-playbook second_playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass":"((password))"}' -u ((user_name))
