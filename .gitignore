@@ -1,5 +1,7 @@
 keys/web/*
 keys/worker/*
+!keys/web/.gitkeep
+!keys/worker/.gitkeep
 bin/*
 !bin/.gitkeep
 .DS_Store
