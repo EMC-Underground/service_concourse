@@ -54,3 +54,5 @@
         - /tmp/service_concourse/docker-compose.yml
     environment:
       VAULT_CLIENT_TOKEN: "{{ vault_key }}"
+      POSTGRES_CONCOURSE_PASSWORD: "{{ postgres_pw }}"
+      DNS_SUFFIX: "{{ dns_suffix }}"

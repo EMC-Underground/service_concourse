@@ -9,9 +9,7 @@ image_resource:
 
 params:
   DNS_SUFFIX: ((dnssuffix))
-  VAULT_CLIENT_TOKEN: ((vault_concourse_token))
   DOCKER_HOST: ((dockerhost))
-  POSTGRES_CONCOURSE_PASSWORD: password
 
 inputs:
   - name: concourse_repo
@@ -27,8 +25,6 @@ run:
     cd concourse_repo
     echo "Docker Host: ${DOCKER_HOST}"
     echo "DNS Suffix: ${DNS_SUFFIX}"
-    echo "Postgres Password: ${POSTGRES_CONCOURSE_PASSWORD}"
-    echo "Vault Token: ${VAULT_CLIENT_TOKEN}"
     server_list=((server_list))
     array=$(echo "${server_list}" | tr ',' '\n')
     echo "[web]" > hosts
@@ -49,7 +45,7 @@ run:
     echo "Hosts file:"
     cat hosts
     export ANSIBLE_HOST_KEY_CHECKING=False
-    ansible-playbook first_playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass": "((password))"}' -u ((user_name))
+ansible-playbook first_playbook.yml -i hosts --extra-vars '{"postgres_pw":"password","dns_suffix":"((dnssuffix))","vault_key":"((vault_concourse_token))","ansible_ssh_pass": "((password))"}' -u ((user_name))
     ls -la /tmp/web
     ls -la /tmp/worker
-    ansible-playbook second_playbook.yml -i hosts --extra-vars '{"vault_key":"((vault_concourse_token))","ansible_ssh_pass":"((password))"}' -u ((user_name))
+    ansible-playbook second_playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass":"((password))"}' -u ((user_name))
