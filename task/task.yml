@@ -25,35 +25,25 @@ run:
     cd concourse_repo
     echo "Docker Host: ${DOCKER_HOST}"
     server_list=((server_list))
-    echo "${server_list}"
     array=$(echo "${server_list}" | tr ',' '\n')
     echo "[web]" > hosts
     echo "[worker]" >> hosts
     count=$(printf "%s\n" "$array" | wc -l)
-    echo "array contents:"
-    echo "${array}"
-    echo $array
-    echo "after count"
-    echo $count
     for i in $(seq 1 $count)
     do
         if [ $i -eq 1 ]
         then
-            echo "Value of i: $i"
             node=`echo "${array}" | awk -v  var="$i" 'NR==var{print $0}'`
-            echo $node
             sed -i "/\[web\]/a ${node}" hosts
             sed -i "/\[worker\]/a ${node}" hosts
         else
-            echo "value of i: $i"
             node=`echo "${array}" | awk -v  var="$i" 'NR==var{print $0}'`
-            echo $node
             sed -i "/\[worker\]/a ${node}" hosts
         fi
     done
-    echo "Hosts file:\n"
+    echo "Hosts file:"
     cat hosts
-    sed -i "/\[defaults\]/a host_key_checking = False" /etc/ansible/ansible.cfg
+    export ANSIBLE_HOST_KEY_CHECKING=False
     ansible-playbook first_playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass": "((password))"}' -u ((user_name))
     ls -la /tmp/web
     ls -la /tmp/worker
