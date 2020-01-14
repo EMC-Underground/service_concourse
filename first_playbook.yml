@@ -52,3 +52,5 @@
       name: cicd
       compose:
         - /tmp/service_concourse/docker-compose.yml
+    environment:
+      VAULT_CLIENT_TOKEN: "{{ vault_key }}"
