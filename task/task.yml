@@ -15,7 +15,7 @@ inputs:
   - name: concourse_repo
 
 run:
-  path: bash
+  path: ash
   args:
   - -c
   - |
