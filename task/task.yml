@@ -19,7 +19,7 @@ run:
   args:
   - -c
   - |
-    echo "Docker Host: ${DOCKER_HOST}
+    echo "Docker Host: ${DOCKER_HOST}"
     apk add --no-cache ansible
     cd concourse_repo
     ./keys/generate
