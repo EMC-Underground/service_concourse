@@ -2,25 +2,25 @@
 - hosts: worker
   become: true
   vars:
-    concourse_version: 5.6.0
-    fly_version: 5.6.0
+    concourse_version: 5.8.0
+    fly_version: 5.8.0
 
   tasks:
-  - name: "Create /opt/concourse"
+  - name: Create /opt/concourse
     file:
       path: /opt/concourse
       state: directory
     tags:
       - concourse
 
-  - name: "Create /etc/concourse"
+  - name: Create /etc/concourse
     file:
       path: /etc/concourse
       state: directory
     tags:
       - concourse
 
-  - name: "Copy worker certs"
+  - name: Copy worker certs
     copy:
       src: /tmp/worker/
       dest: /opt/concourse/keys/
@@ -30,7 +30,7 @@
     tags:
       - concourse
 
-  - name: "Copy concourse systemd file"
+  - name: Copy concourse systemd file
     copy:
       src: ./concourse_worker.service
       dest: /etc/systemd/system/concourse_worker.service
@@ -40,7 +40,7 @@
     tags:
       - concourse
 
-  - name: "Copy concourse environment file"
+  - name: Copy concourse environment file
     copy:
       src: ./concourse_worker.conf
       dest: /etc/concourse/concourse_worker.conf
@@ -50,14 +50,27 @@
     tags:
       - concourse
 
-  - name: "Install Concourse binary"
-    unarchive:
-      src: "https://github.com/concourse/concourse/releases/download/v{{ concourse_version }}/concourse-{{ concourse_version }}-linux-amd64.tgz"
-      dest: /usr/local
-      remote_src: yes
-      keep_newer: no
+  - name: Download the  concourse tgz locally
+    get_url:
+      url: "https://github.com/concourse/concourse/releases/download/v{{ concourse_version }}/concourse-{{ concourse_version }}-linux-amd64.tgz"
+      dest: /tmp
     tags:
       - concourse
+
+  - name: Extract concourse binary locally
+    unarchive:
+      src: /tmp/concourse-{{ concourse_version }}-linux-amd64.tgz
+      dest: /tmp
+    tags:
+      - concourse
+
+  - name: Copy the concourse binary to worker nodes
+    copy:
+      src: /tmp/concourse
+      dest: /usr/local
+    tags:
+      - concourse
+
 
   - name: Create and start our new service
     systemd:

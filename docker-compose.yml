@@ -14,7 +14,7 @@ services:
         max-size: "10m"
 
   web:
-    image: concourse/concourse:5.6
+    image: concourse/concourse:5.8
     command: web
     networks:
       - vault-secrets
