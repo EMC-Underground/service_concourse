@@ -48,6 +48,13 @@
 
   - name: Deploy concourse docker stack
     docker_stack:
+      state: absent
+      name: cicd
+      absent_retries: 5
+      absent_retries_interval: 2
+
+  - name: Deploy concourse docker stack
+    docker_stack:
       state: present
       name: cicd
       compose:
