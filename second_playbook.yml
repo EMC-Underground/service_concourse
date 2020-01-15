@@ -54,6 +54,7 @@
     get_url:
       url: "https://github.com/concourse/concourse/releases/download/v{{ concourse_version }}/concourse-{{ concourse_version }}-linux-amd64.tgz"
       dest: /tmp
+    delegate_to: 127.0.0.1
     tags:
       - concourse
 
@@ -61,6 +62,7 @@
     unarchive:
       src: /tmp/concourse-{{ concourse_version }}-linux-amd64.tgz
       dest: /tmp
+    delegate_to: 127.0.0.1
     tags:
       - concourse
 
