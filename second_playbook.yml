@@ -50,22 +50,6 @@
     tags:
       - concourse
 
-  - name: Download the  concourse tgz locally
-    get_url:
-      url: "https://github.com/concourse/concourse/releases/download/v{{ concourse_version }}/concourse-{{ concourse_version }}-linux-amd64.tgz"
-      dest: /tmp
-    delegate_to: 127.0.0.1
-    tags:
-      - concourse
-
-  - name: Extract concourse binary locally
-    unarchive:
-      src: /tmp/concourse-{{ concourse_version }}-linux-amd64.tgz
-      dest: /tmp
-    delegate_to: 127.0.0.1
-    tags:
-      - concourse
-
   - name: Copy the concourse binary to worker nodes
     copy:
       src: /tmp/concourse

@@ -1,0 +1,21 @@
+---
+- hosts: worker
+  connection: local
+  become: true
+  vars:
+    concourse_version: 5.8.0
+    fly_version: 5.8.0
+
+  - name: Download the  concourse tgz locally
+    get_url:
+      url: "https://github.com/concourse/concourse/releases/download/v{{ concourse_version }}/concourse-{{ concourse_version }}-linux-amd64.tgz"
+      dest: /tmp
+    tags:
+      - concourse
+
+  - name: Extract concourse binary locally
+    unarchive:
+      src: /tmp/concourse-{{ concourse_version }}-linux-amd64.tgz
+      dest: /tmp
+    tags:
+      - concourse
