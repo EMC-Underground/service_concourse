@@ -54,6 +54,7 @@
     copy:
       src: /tmp/concourse
       dest: /usr/local
+      mode: '0755'
     tags:
       - concourse
 
