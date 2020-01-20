@@ -15,7 +15,7 @@
 
   - name: Installing python dependancies for ansible docker stack module
     pip:
-      name: {{ item }}
+      name: "{{ item }}"
       state: present
     with_items:
       - jsondiff
