@@ -13,9 +13,13 @@
       name: pip
       state: latest
 
-  - name: Installing jsondiff python dependancy for ansible docker stack module
+  - name: Installing python dependancies for ansible docker stack module
     pip:
-      name: jsondiff
+      name: {{ item }}
+      state: present
+    with_items:
+      - jsondiff
+      - pyyaml
 
   - name: Clone/Pull latest version of repository
     git:
