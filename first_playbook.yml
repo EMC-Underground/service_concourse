@@ -3,16 +3,6 @@
   become: true
 
   tasks:
-  - name: Installing python-setuptools
-    package:
-      name: python-setuptools
-      state: latest
-
-  - name: Installing pip
-    easy_install:
-      name: pip
-      state: latest
-
   - name: Installing python dependancies for ansible docker stack module
     pip:
       name:
