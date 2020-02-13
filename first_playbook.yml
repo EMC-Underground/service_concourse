@@ -22,6 +22,7 @@
       name: "{{ python_packages_to_install | join(' ')  }}"
       state: present
       executable: pip3
+      extra_args: --user
 
   - name: Clone/Pull latest version of repository
     git:
