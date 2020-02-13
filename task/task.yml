@@ -19,7 +19,7 @@ run:
   args:
   - -c
   - |
-    apk -U add --no-cache tar ansible > /dev/null 2>&1
+    apk -U add --no-cache tar ansible py3-pip > /dev/null 2>&1
     mkdir /tmp/web
     mkdir /tmp/worker
     cd concourse_repo
