@@ -20,6 +20,7 @@ run:
   - -c
   - |
     apk -U add --no-cache tar python3 ansible py3-pip > /dev/null 2>&1
+    pip3 install jsondiff pyyaml
     mkdir /tmp/web
     mkdir /tmp/worker
     cd concourse_repo
