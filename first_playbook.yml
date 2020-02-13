@@ -1,10 +1,6 @@
 ---
 - hosts: web
   become: true
-  vars:
-    python_packages_to_install:
-      - jsondiff
-      - pyyaml
 
   tasks:
   - name: Installing python-setuptools
@@ -19,7 +15,9 @@
 
   - name: Installing python dependancies for ansible docker stack module
     pip:
-      name: "{{ python_packages_to_install | join(' ')  }}"
+      name:
+        - jsondiff
+        - pyyaml
       state: present
       executable: /usr/bin/pip3
       extra_args: --user
