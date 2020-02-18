@@ -2,11 +2,6 @@
 - hosts: web
   become: true
 
-  tasks:
-  - name: Install Python3 if needed
-    package:
-      name: python3
-      state: present
 
   - name: Temporarily disable SELinux
     selinux:
