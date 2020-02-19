@@ -7,6 +7,11 @@
     fly_version: 5.8.0
 
   tasks:
+  - name: Install Unzip if needed
+    packages: 
+      name: unzip
+      state: present 
+      
   - name: Download the  concourse tgz locally
     get_url:
       url: "https://github.com/concourse/concourse/releases/download/v{{ concourse_version }}/concourse-{{ concourse_version }}-linux-amd64.tgz"
