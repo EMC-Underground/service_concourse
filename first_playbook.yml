@@ -2,10 +2,10 @@
 - hosts: web
   become: true
 
-  tasks:
-  - name: Temporarily disable SELinux
-    selinux:
-      state: permissive
+#  tasks:
+#  - name: Temporarily disable SELinux
+#    selinux:
+#      state: permissive
 
   - name: Installing python dependancies for ansible docker stack module
     pip:
