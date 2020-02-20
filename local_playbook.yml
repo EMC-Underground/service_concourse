@@ -9,8 +9,11 @@
   tasks:
   - name: Install Unzip if needed
     package: 
-      name: unzip
+      name: {{ item }}
       state: present 
+    with_items:
+      - unzip
+      - tar
       
   - name: Download the  concourse tgz locally
     get_url:
