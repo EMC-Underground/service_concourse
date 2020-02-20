@@ -7,13 +7,15 @@
     fly_version: 5.8.0
 
   tasks:
-  
-  - name: "Installing Basic Tools"
-    package: pkg={{ item }} state=installed
+  - name: Install Unzip and Tar if needed
+    package: 
+      name: "{{ item }}"
+      state: present 
     with_items:
       - unzip
       - tar
-      
+  
+
   - name: Download the  concourse tgz locally
     get_url:
       url: "https://github.com/concourse/concourse/releases/download/v{{ concourse_version }}/concourse-{{ concourse_version }}-linux-amd64.tgz"
