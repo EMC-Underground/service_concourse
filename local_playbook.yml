@@ -7,10 +7,9 @@
     fly_version: 5.8.0
 
   tasks:
-  - name: Install Unzip if needed
-    package: 
-      name: "{{ item }}"
-      state: present 
+  
+  - name: "Installing Basic Tools"
+    package: pkg={{ item }} state=installed
     with_items:
       - unzip
       - tar
