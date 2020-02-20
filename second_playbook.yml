@@ -9,7 +9,7 @@
   - name: Temporarily disable SELinux
     selinux:
       state: permissive
-  
+      policy: targeted
   
   - name: Create /opt/concourse
     file:
