@@ -47,4 +47,4 @@ run:
     export ANSIBLE_HOST_KEY_CHECKING=False
     ansible-playbook first_playbook.yml -i hosts --extra-vars '{"postgres_pw":"password","dns_suffix":"((dnssuffix))","vault_key":"((vault_concourse_token))","ansible_ssh_pass": "((password))","ansible_python_interpreter": "/usr/bin/python3"}' -u ((user_name))
     ansible-playbook local_playbook.yml --inventory=127.0.0.1,
-    ansible-playbook second_playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass":"((password))","ansible_python_interpreter": "/usr/bin/python3"}' -u ((user_name))
+    ansible-playbook second_playbook.yml -i hosts --extra-vars '{"ansible_ssh_pass":"((password))"}' -u ((user_name))

@@ -6,6 +6,11 @@
     fly_version: 5.8.0
 
   tasks:
+  - name: Temporarily disable SELinux
+    selinux:
+      state: permissive
+      policy: targeted
+  
   - name: Create /opt/concourse
     file:
       path: /opt/concourse
