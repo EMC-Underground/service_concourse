@@ -2,7 +2,7 @@
 
 set -e -u
 
-# cd $(dirname $0)
+cd $(dirname $0)
 
 docker run --rm -v $PWD/web:/keys concourse/concourse \
   generate-key -t rsa -f /keys/session_signing_key
