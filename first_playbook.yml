@@ -39,16 +39,17 @@
     args:
       chdir: /tmp/service_concourse/keys
 
-
   - name:
     copy:
       src: /tmp/service_concourse/keys/worker/worker_key.pub
       dest: /tmp/service_concourse/keys/web/authroized_worker_keys
+      remote_src: true
 
   - name:
     copy:
       src: /tmp/service_concourse/keys/web/tsa_host_key.pub
       dest: /tmp/service_concourse/keys/worker
+      remote_src: true
 
   - name: Creating list of web files to copy
     shell: (cd /tmp/service_concourse/keys/web; find . -maxdepth 1 -type f) | cut -d'/' -f2
