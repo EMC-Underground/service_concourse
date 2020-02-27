@@ -22,7 +22,6 @@ run:
     mkdir /tmp/web
     mkdir /tmp/worker
     cd concourse_repo
-    chmod +x keys/generate
     echo "Docker Host: ${DOCKER_HOST}"
     echo "DNS Suffix: ${DNS_SUFFIX}"
     server_list=((server_list))

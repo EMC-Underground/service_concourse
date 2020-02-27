@@ -16,11 +16,6 @@
       repo: https://github.com/EMC-Underground/service_concourse.git
       dest: /tmp/service_concourse
 
-  - name: Generating worker and web certs
-    shell: ./keys/generate
-    args:
-      chdir: /tmp/service_concourse
-
   - name: Generating worker and web certs for session sigining key
     shell: docker run --rm -v $PWD/web:/keys concourse/concourse \
            generate-key -t rsa -f /keys/session_signing_key
