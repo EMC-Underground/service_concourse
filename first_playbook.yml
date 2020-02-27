@@ -29,7 +29,7 @@
       chdir: /tmp/service_concourse/keys
 
   - name: Generating worker and web certs for worker key
-    shell: docker run --rm -v $PWD/web:/keys concourse/concourse \
+    shell: docker run --rm -v $PWD/worker:/keys concourse/concourse \
            generate-key -t ssh -f /keys/worker_key
     args:
       chdir: /tmp/service_concourse/keys
