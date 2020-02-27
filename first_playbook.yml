@@ -29,13 +29,13 @@
 
   - name: Generating worker and web certs for tsa host key
     shell: docker run --rm -v $PWD/web:/keys concourse/concourse \
-           generate-key -t rsa -f /keys/tsa_host_key
+           generate-key -t ssh -f /keys/tsa_host_key
     args:
       chdir: /tmp/service_concourse/keys
 
   - name: Generating worker and web certs for worker key
     shell: docker run --rm -v $PWD/web:/keys concourse/concourse \
-           generate-key -t rsa -f /keys/worker_key
+           generate-key -t ssh -f /keys/worker_key
     args:
       chdir: /tmp/service_concourse/keys
 
