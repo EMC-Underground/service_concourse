@@ -36,7 +36,7 @@
   - name:
     copy:
       src: /tmp/service_concourse/keys/worker/worker_key.pub
-      dest: /tmp/service_concourse/keys/web/authroized_worker_keys
+      dest: /tmp/service_concourse/keys/web/authorized_worker_keys
       remote_src: true
 
   - name:
