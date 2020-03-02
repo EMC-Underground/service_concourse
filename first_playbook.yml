@@ -9,7 +9,6 @@
         - jsondiff
         - pyyaml
       state: present
-      executable: /usr/bin/pip3
 
   - name: Clone/Pull latest version of repository
     git:
