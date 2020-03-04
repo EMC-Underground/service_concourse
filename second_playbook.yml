@@ -10,7 +10,7 @@
     selinux:
       state: permissive
       policy: targeted
-  
+
   - name: Create /opt/concourse
     file:
       path: /opt/concourse
@@ -68,6 +68,7 @@
     systemd:
       state: restarted
       daemon_reload: yes
+      enabled: yes
       name: concourse_worker
     tags:
       - concourse
