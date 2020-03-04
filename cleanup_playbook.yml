@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+  - name: Delete the concourse_worker.conf
+    file:
+      path: /etc/concourse/concourse_worker.conf
+      state: absent
+
+  - name: Ansible delete directory example
+    file:
+      path: /opt/concourse/keys
+      state: absent
