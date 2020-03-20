@@ -55,10 +55,10 @@ services:
         max-size: "10m"
     deploy:
       labels:
-        - "traefik.frontend.rule=Host:concourse.${DNS_SUFFIX}"
-        - "traefik.port=8080"
-        - "traefik.docker.network=traefik-net"
         - "traefik.enable=true"
+        - "traefik.http.routers.traefik.rule=Host(`concourse.${DNS_SUFFIX}`)"
+        - "traefik.http.routers.traefik.entrypoints=http"
+        - "traefik.http.services.traefik.loadbalancer.server.port=8080"
 
 secrets:
   session_signing_key:
