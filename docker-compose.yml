@@ -56,9 +56,9 @@ services:
     deploy:
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.traefik.rule=Host(`concourse.${DNS_SUFFIX}`)"
-        - "traefik.http.routers.traefik.entrypoints=http"
-        - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+        - "traefik.http.routers.concourse.rule=Host(`concourse.${DNS_SUFFIX}`)"
+        - "traefik.http.routers.concourse.entrypoints=http"
+        - "traefik.http.services.concourse.loadbalancer.server.port=8080"
 
 secrets:
   session_signing_key:
