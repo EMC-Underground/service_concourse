@@ -14,6 +14,7 @@
     git:
       repo: https://github.com/EMC-Underground/service_concourse.git
       dest: /tmp/service_concourse
+      version: dev
       force: yes
 
   - name: Generating worker and web certs for session sigining key
@@ -70,11 +71,11 @@
     with_items:
       - "{{ worker_files_to_copy.stdout_lines }}"
 
-  - name: Deploy concourse docker stack
+  - name: Destroy concourse docker stack
     docker_stack:
       state: absent
       name: cicd
-      absent_retries: 5
+      absent_retries: 10
       absent_retries_interval: 2
 
   - name: Deploy concourse docker stack

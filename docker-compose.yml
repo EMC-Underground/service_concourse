@@ -14,7 +14,7 @@ services:
         max-size: "10m"
 
   web:
-    image: concourse/concourse:5.8
+    image: concourse/concourse:5.8.0
     command: web
     networks:
       - vault-secrets
@@ -55,10 +55,10 @@ services:
         max-size: "10m"
     deploy:
       labels:
-        - "traefik.frontend.rule=Host:concourse.${DNS_SUFFIX}"
-        - "traefik.port=8080"
-        - "traefik.docker.network=traefik-net"
         - "traefik.enable=true"
+        - "traefik.http.routers.concourse.rule=Host(`concourse.${DNS_SUFFIX}`)"
+        - "traefik.http.routers.concourse.entrypoints=http"
+        - "traefik.http.services.concourse.loadbalancer.server.port=8080"
 
 secrets:
   session_signing_key:
