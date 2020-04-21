@@ -12,7 +12,7 @@
       
   - name: make sure /tmp/service_consourse is gone
     file:
-      absent: true
+      state: absent
       name: /tmp/service_concourse/
   
   - name: Clone/Pull latest version of repository
